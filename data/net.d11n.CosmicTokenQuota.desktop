@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=Token Quota
+Comment=AI quota usage in the panel
+Comment[de]=AI-Quota-Verbrauch im Panel
+Type=Application
+Exec=@BIN@
+Terminal=false
+Categories=COSMIC;
+Keywords=COSMIC;Applet;OpenCode;Z.ai;GLM;Quota;Usage;Token;
+Icon=net.d11n.CosmicTokenQuota
+StartupNotify=true
+NoDisplay=true
+X-CosmicApplet=true
+X-CosmicShrinkable=true

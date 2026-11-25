@@ -1,0 +1,56 @@
+[package]
+name = "cosmic-applet-token-quota"
+version = "1.0.0"
+edition = "2021"
+description = "COSMIC panel applet showing AI coding-plan quota usage"
+
+[dependencies]
+# Revision gepinnt: die Applet-Patterns (Popup, Autosize) sind gegen
+# genau diese libcosmic-Revision verifiziert; cargo update darf sie nicht
+# verschieben (siehe AGENTS.md).
+libcosmic = { git = "https://github.com/pop-os/libcosmic", rev = "c3ced76094376bcbe331da0d4518fcc6b27006bb", default-features = false, features = [
+    "applet",
+    "applet-token",
+    "dbus-config",
+    "multi-window",
+    "tokio",
+    "wayland",
+    "winit",
+] }
+tokio = { version = "1", features = ["rt-multi-thread", "time", "macros"] }
+reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
+bytes = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+dirs = "7"
+toml = "1"
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+anyhow = "1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+tracing-log = "0.2"
+i18n-embed = { version = "0.16.0", features = [
+    "fluent-system",
+    "desktop-requester",
+] }
+i18n-embed-fl = "0.10"
+rust-embed = "8.11.0"
+tempfile = "3"
+
+# Upstream hat die Crates in dbus-settings-bindings main umbenannt
+# (cosmic-settings-daemon -> cosmic-settings-daemon-zbus,
+#  switcheroo-control -> switcheroo-control-zbus, zbus 5 -> 6); der
+# gepinnte libcosmic-Rev braucht noch die alten Namen. Die Pfad-Patches
+# auf die Vendor-Snapshots (siehe vendor/*/README.md) halten
+# `cargo update` funktionsfähig; die uebrigen Bindings dieses Repos
+# aktualisieren sich normal.
+[patch.'https://github.com/pop-os/dbus-settings-bindings']
+cosmic-settings-daemon = { path = "vendor/cosmic-settings-daemon" }
+switcheroo-control = { path = "vendor/switcheroo-control" }
+
+[dev-dependencies]
+httpmock = "0.7"
+tempfile = "3"
+
+[profile.dev]
+opt-level = 1
